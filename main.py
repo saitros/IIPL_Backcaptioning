@@ -2,9 +2,9 @@
 import time
 import argparse
 # Training
-from task.train_vit import vit_training
+# from task.train_vit import vit_training
 from task.train_cap import captioning_training
-from task.train_gan import transgan_training
+# from task.train_gan import transgan_training
 # Testing
 from task.test_cap import captioning_testing
 # Utils
@@ -104,9 +104,13 @@ if __name__=='__main__':
                         help="Number of encoder layers; Default is 12")
     parser.add_argument('--num_decoder_layer', default=12, type=int, 
                         help="Number of decoder layers; Default is 12")
+    
     # 2) Captioning Only
     parser.add_argument('--parallel', default=False, type=str2bool,
                         help='Transformer Encoder and Decoder parallel mode; Default is False')
+    parser.add_argument('--use_pretrained', default=True, type=bool,
+                        help="Use pretrained model; Default is True")
+                        
     # 3) TransGAN Only
     parser.add_argument('--latent_dim', default=256, type=int,
                         help='')

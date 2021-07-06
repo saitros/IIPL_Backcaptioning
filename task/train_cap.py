@@ -62,7 +62,8 @@ def train_epoch(args, epoch, model, dataloader, optimizer, scheduler, scaler, lo
         # Model
         with autocast():
             predicted = model(
-                img, caption[:, :-1], tgt_mask, non_pad_position=non_pad)    
+                img, caption[:, :-1], tgt_mask, non_pad_position=non_pad)   
+            print(predicted) 
             predicted = predicted.view(-1, predicted.size(-1))
             loss = label_smoothing_loss(
                 predicted, label, device)
@@ -125,7 +126,10 @@ def valid_epoch(args, model, dataloader, device):
     return val_loss, val_acc
 
 def captioning_training(args):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
+    torch.cuda.set_device(device)
+    print('Current cuda device ', torch.cuda.current_device())
 
     if not os.path.exists(args.captioning_preprocess_path):
         os.mkdir(args.captioning_preprocess_path)

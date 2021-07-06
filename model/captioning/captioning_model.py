@@ -1,3 +1,5 @@
+# Import Pretrained Vit
+from pytorch_pretrained_vit import ViT
 # Import PyTorch
 import torch
 from torch import nn
@@ -41,6 +43,8 @@ class Vision_Transformer(nn.Module):
         self.encoders = nn.ModuleList([
             TransformerEncoderLayer(d_model, self_attn, dim_feedforward, dropout=dropout) \
                 for i in range(num_encoder_layer)])
+        # print('pretrain vit model seleted')
+        # self.encoders = ViT('B_16_imagenet1k', pretrained=True, image_size = img_size)
 
         # Transformer Decoder part
         self_attn = MultiheadAttention(d_model, n_head, dropout=dropout)
@@ -94,6 +98,11 @@ class Vision_Transformer(nn.Module):
             # Transformer Encoder
             for encoder in self.encoders:
                 encoder_out = encoder(encoder_out)
+            
+            
+            # Pretrained Vit Encoder
+            # encoder_out = self.encoders(src_img)
+
 
             # Transformer Decoder
             for decoder in self.decoders:
